@@ -12,7 +12,6 @@
         background-color: #020617;
         color: white;
         font-family: system-ui, -apple-system, sans-serif;
-        overflow-x: hidden;
       }
       #error-log {
         display: none;
@@ -70,18 +69,15 @@
 </script>
 
     <script>
-      // Captura erros de carregamento e sintaxe
-      window.onerror = function(msg, url, line, col, error) {
+      window.process = { env: { API_KEY: "" } };
+      window.onerror = function(msg, url, line) {
         const overlay = document.getElementById('loading-overlay');
         if (overlay) overlay.style.display = 'none';
         const log = document.getElementById('error-log');
         log.style.display = 'block';
-        log.textContent = "❌ ERRO DETECTADO:\n" + msg + "\n\nLocal: " + url + "\nLinha: " + line;
-        console.error(error);
+        log.textContent = "❌ ERRO DE SISTEMA:\n" + msg + "\nLinha: " + line;
         return false;
       };
-      // Define process.env para evitar erros de referência
-      window.process = { env: { API_KEY: "" } };
     </script>
   </head>
   <body>
@@ -92,11 +88,7 @@
     </div>
     <div id="root"></div>
 
-    <!-- 
-      IMPORTANTE: 
-      data-type="module" faz o Babel gerar um script type="module"
-      Isso resolve o erro "Cannot use import statement outside a module"
-    -->
+    <!-- O segredo está no data-type="module" para o Babel -->
     <script type="text/babel" data-presets="react,typescript" data-type="module" src="App.tsx"></script>
   </body>
 </html>
