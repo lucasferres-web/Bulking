@@ -131,7 +131,8 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
     levelColor = "text-red-600";
   }
 
-  const increaseAmount = Math.round(macros.totalCalories * 0.15);
+  // Regra dos 10% limitada a 300kcal
+  const increaseAmount = Math.min(300, Math.round(macros.totalCalories * 0.10));
   const carbIncrease = Math.round(increaseAmount / 4);
 
   return (
@@ -158,14 +159,30 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
           </div>
         </div>
 
+        {/* Metas de Ganho */}
+        <div className="p-8 bg-stone-50 rounded-3xl border-2 border-dashed border-stone-200">
+           <div className="flex items-center space-x-4 mb-4">
+              <div className="bg-[#C5A059] p-2 rounded-lg">
+                <svg className="w-6 h-6 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+              </div>
+              <h5 className="font-black text-xl text-slate-950 uppercase tracking-tight">Meta de Ganho de Peso</h5>
+           </div>
+           <p className="text-slate-600 font-semibold leading-relaxed">
+             Sua meta é manter uma <span className="text-slate-950 font-black underline decoration-[#C5A059] decoration-2">média semanal</span> de ganho entre <span className="text-slate-950 font-black">250g a 500g</span>. 
+           </p>
+           <p className="text-[11px] mt-4 text-slate-500 font-bold italic leading-tight">
+             * Atenção: Isso não significa que o peso subirá exatamente todas as semanas de forma linear. O corpo oscila; foque na média acumulada ao longo do tempo.
+           </p>
+        </div>
+
         {/* Regra de Ouro */}
         <div className="space-y-6">
           <div className="flex items-center space-x-4">
-            <div className="bg-[#C5A059] text-white w-10 h-10 rounded-full flex items-center justify-center font-black flex-shrink-0">!</div>
+            <div className="bg-slate-950 text-[#C5A059] w-10 h-10 rounded-full flex items-center justify-center font-black flex-shrink-0 border-2 border-[#C5A059]">!</div>
             <h5 className="font-black text-xl text-slate-950 uppercase tracking-tight">Quando Ajustar o Plano?</h5>
           </div>
           <p className="text-slate-600 font-semibold leading-relaxed pl-14">
-            Sempre que o seu peso corporal estagnar (não subir) por <span className="text-slate-950 font-black border-b-2 border-[#C5A059]">2 semanas consecutivas</span>, você deve realizar um ajuste de progressão.
+            Se a sua <span className="font-bold text-slate-950">média semanal</span> de peso estagnar por <span className="text-slate-950 font-black border-b-2 border-[#C5A059]">2 semanas consecutivas</span>, é hora de realizar um ajuste.
           </p>
         </div>
 
@@ -174,14 +191,14 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
            <div className="absolute top-0 right-0 p-4 opacity-10">
               <svg className="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" /></svg>
            </div>
-           <h5 className="font-black text-xl uppercase tracking-tight mb-4 text-[#C5A059]">Como realizar o aumento?</h5>
+           <h5 className="font-black text-xl uppercase tracking-tight mb-4 text-[#C5A059]">Estratégia de Aumento</h5>
            <div className="space-y-4 relative z-10">
-              <p className="text-slate-300 font-medium">Aumente aproximadamente <span className="text-white font-black">15% das calorias totais</span> (+{increaseAmount} kcal).</p>
+              <p className="text-slate-300 font-medium">Aumente aproximadamente <span className="text-white font-black">10% das calorias totais</span> (máximo de 300 kcal).</p>
               <div className="p-4 bg-white/5 border border-white/10 rounded-2xl">
                 <p className="text-sm font-bold leading-relaxed text-[#C5A059]">
-                   ESTRATÉGIA: Adicione cerca de <span className="text-white text-lg underline">{carbIncrease}g de Carboidratos</span> extras distribuídos ao longo do dia.
+                   COMO FAZER: Adicione cerca de <span className="text-white text-lg underline">{carbIncrease}g de Carboidratos</span> extras ao seu total diário.
                 </p>
-                <p className="text-[10px] mt-2 text-slate-400 font-black uppercase italic">Base: 1g de carbo = 4kcal</p>
+                <p className="text-[10px] mt-2 text-slate-400 font-black uppercase italic">Dica: Priorize carboidratos de fácil digestão (arroz, batata, frutas) para bater a meta.</p>
               </div>
            </div>
         </div>
@@ -201,7 +218,7 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
         {/* Alerta Final */}
         <div className="p-6 bg-red-50 border-2 border-red-100 rounded-3xl">
            <p className="text-red-900 text-xs font-bold leading-relaxed text-center">
-             <span className="font-black uppercase">⚠️ AVISO:</span> Não é aconselhado ultrapassar 50 kcal/kg, a menos que os pilares do bulking (treino, sono e digestão) estejam intactos. Consulte o e-book para entender a fundo esses pilares.
+             <span className="font-black uppercase">⚠️ AVISO:</span> Não é aconselhado ultrapassar 50 kcal/kg, a menos que os pilares do bulking (treino, some e digestão) estejam intactos. Consulte o e-book para entender a fundo esses pilares.
            </p>
         </div>
       </div>
@@ -216,8 +233,8 @@ const DietDisplay: React.FC<Props> = ({ dietPlan, macros, userData }) => {
         <span className="bg-[#C5A059] text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.4em] mb-6 inline-block shadow-lg shadow-amber-200/50">
           Prescrição Team Ferres
         </span>
-        <h2 className="text-5xl font-black text-slate-950 mb-4 uppercase tracking-tighter leading-none">{dietPlan.title}</h2>
-        <p className="text-slate-600 font-bold uppercase text-xs tracking-widest max-w-lg mx-auto leading-relaxed">
+        <h2 className="text-5xl font-black text-white mb-4 uppercase tracking-tighter leading-none">{dietPlan.title}</h2>
+        <p className="text-slate-400 font-bold uppercase text-xs tracking-widest max-w-lg mx-auto leading-relaxed">
           Siga rigorosamente as quantidades para máxima performance estética e funcional.
         </p>
       </div>
@@ -267,7 +284,6 @@ const DietDisplay: React.FC<Props> = ({ dietPlan, macros, userData }) => {
         </div>
       </div>
 
-      {/* NOVO: Guia de Progressão de Bulking */}
       <ProgressionGuide macros={macros} userData={userData} />
 
       <div className="mt-16 text-center flex flex-col items-center gap-6">
