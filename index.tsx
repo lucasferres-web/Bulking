@@ -1,16 +1,1 @@
-
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
-
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  console.error("Elemento root não encontrado!");
-} else {
-  const root = createRoot(rootElement);
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
-}
+// Arquivo desativado em favor do carregamento direto via index.html

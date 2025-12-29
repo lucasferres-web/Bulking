@@ -15,38 +15,43 @@
       }
       #error-log {
         display: none;
-        padding: 15px;
+        padding: 20px;
         background: #450a0a;
         color: #fca5a5;
         font-family: monospace;
-        font-size: 12px;
-        border-bottom: 2px solid #ef4444;
+        font-size: 14px;
+        border: 2px solid #ef4444;
         white-space: pre-wrap;
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
+        top: 20px;
+        left: 20px;
+        right: 20px;
         z-index: 9999;
+        border-radius: 12px;
       }
-      #root:empty {
+      #loading-overlay {
+        position: fixed;
+        inset: 0;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 100vh;
+        background: #020617;
+        z-index: 50;
+        transition: opacity 0.5s ease;
       }
-      #root:empty::after {
-        content: "";
-        width: 40px;
-        height: 40px;
-        border: 4px solid #C5A059;
-        border-top-color: transparent;
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(197,160,89,0.1);
+        border-top-color: #C5A059;
         border-radius: 50%;
         animation: spin 1s linear infinite;
       }
       @keyframes spin { to { transform: rotate(360deg); } }
+      @media print { .no-print { display: none !important; } }
     </style>
 
-    <!-- Scripts Necessários -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
@@ -64,30 +69,26 @@
 </script>
 
     <script>
-      // Captura erros para ajudar no diagnóstico caso a tela continue branca
       window.onerror = function(msg, url, line) {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.style.display = 'none';
         const log = document.getElementById('error-log');
-        if (log) {
-          log.style.display = 'block';
-          log.textContent += "ERRO: " + msg + "\nLINHA: " + line + "\nURL: " + url + "\n---\n";
-        }
+        log.style.display = 'block';
+        log.textContent = "❌ ERRO CRÍTICO:\n" + msg + "\n\nVerifique se o arquivo App.tsx existe na raiz.";
         return false;
       };
-
-      // Define ambiente global para o SDK do Gemini
       window.process = { env: { API_KEY: "" } };
     </script>
   </head>
   <body>
-    <div id="error-log">⚠️ Ocorreu um problema no carregamento:</div>
+    <div id="error-log"></div>
+    <div id="loading-overlay">
+      <div class="spinner"></div>
+      <p style="color: #C5A059; font-weight: 900; margin-top: 20px; letter-spacing: 0.3em; font-size: 10px; text-transform: uppercase;">Aguarde o Protocolo...</p>
+    </div>
     <div id="root"></div>
 
-    <!-- Carrega o index.tsx e força a transpilação pelo Babel -->
-    <script 
-      type="text/babel" 
-      data-presets="react,typescript" 
-      data-type="module" 
-      src="index.tsx"
-    ></script>
+    <!-- O Babel processa o App.tsx e o script de montagem -->
+    <script type="text/babel" data-presets="react,typescript" src="App.tsx"></script>
   </body>
 </html>
