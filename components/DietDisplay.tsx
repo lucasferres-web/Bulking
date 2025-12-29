@@ -11,7 +11,7 @@ interface Props {
 const SubstitutionModal: React.FC<{ substitution: Substitution | null; onClose: () => void }> = ({ substitution, onClose }) => {
   if (!substitution) return null;
   return (
-    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
+    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-300 no-print">
       <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden animate-in zoom-in-95 duration-300 border border-stone-100">
         <div className="p-6 bg-slate-950 text-[#C5A059] flex justify-between items-center border-b-2 border-[#C5A059]">
           <h4 className="font-black text-sm uppercase tracking-widest">Opções: {substitution.item}</h4>
@@ -43,13 +43,13 @@ const MealCard: React.FC<{ meal: Meal }> = ({ meal }) => {
   const isExtra = meal.title.toLowerCase().includes('extra');
 
   return (
-    <div className={`bg-white rounded-3xl shadow-2xl border ${isExtra ? 'border-[#C5A059] ring-2 ring-[#C5A059]/10' : 'border-stone-100'} overflow-hidden mb-8 group transition-all hover:shadow-stone-200`}>
+    <div className={`bg-white rounded-3xl shadow-2xl border ${isExtra ? 'border-[#C5A059] ring-2 ring-[#C5A059]/10' : 'border-stone-100'} overflow-hidden mb-8 group transition-all hover:shadow-stone-200 break-inside-avoid`}>
       <div className={`${isExtra ? 'bg-[#C5A059]' : 'bg-slate-950'} p-6 flex justify-between items-center border-b ${isExtra ? 'border-[#C5A059]' : 'border-stone-800'}`}>
         <div>
           <h3 className={`${isExtra ? 'text-slate-950' : 'text-white'} text-2xl font-black uppercase tracking-tight`}>{meal.title}</h3>
         </div>
         {isExtra && (
-          <div className="bg-slate-950/10 p-2 rounded-lg">
+          <div className="bg-slate-950/10 p-2 rounded-lg no-print">
              <svg className="w-6 h-6 text-slate-950" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" /></svg>
           </div>
         )}
@@ -59,12 +59,12 @@ const MealCard: React.FC<{ meal: Meal }> = ({ meal }) => {
         <div className={`p-8 space-y-4 ${isExtra ? 'bg-amber-50/50' : 'bg-stone-50/30'}`}>
           <div className="flex items-center justify-between mb-2">
             <span className="bg-slate-950 text-[#C5A059] text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Opção 1</span>
-            {!isExtra && <span className="text-[10px] text-slate-500 font-bold italic">Direto ao ponto</span>}
+            {!isExtra && <span className="text-[10px] text-slate-500 font-bold italic no-print">Direto ao ponto</span>}
           </div>
           <p className={`text-slate-700 ${isExtra ? 'text-lg font-black' : 'text-sm font-semibold'} leading-relaxed whitespace-pre-line`}>{meal.practical.description}</p>
           
           {meal.practical.substitutions.length > 0 && (
-            <div className="pt-4 border-t border-stone-100">
+            <div className="pt-4 border-t border-stone-100 no-print">
               <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-3">Substitutos Disponíveis:</p>
               <div className="flex flex-wrap gap-2">
                 {meal.practical.substitutions.map((sub, i) => (
@@ -85,11 +85,11 @@ const MealCard: React.FC<{ meal: Meal }> = ({ meal }) => {
           <div className="p-8 space-y-4">
             <div className="flex items-center justify-between mb-2">
               <span className="bg-[#C5A059] text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Opção 2</span>
-              <span className="text-[10px] text-slate-500 font-bold italic">Mais elaborada</span>
+              <span className="text-[10px] text-slate-500 font-bold italic no-print">Mais elaborada</span>
             </div>
             <p className="text-slate-800 text-sm leading-relaxed font-bold whitespace-pre-line">{meal.elaborate.description}</p>
             {meal.elaborate.substitutions.length > 0 && (
-              <div className="pt-4 border-t border-stone-100">
+              <div className="pt-4 border-t border-stone-100 no-print">
                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-3">Substitutos Disponíveis:</p>
                 <div className="flex flex-wrap gap-2">
                   {meal.elaborate.substitutions.map((sub, i) => (
@@ -131,19 +131,17 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
     levelColor = "text-red-600";
   }
 
-  // Regra dos 10% limitada a 300kcal
   const increaseAmount = Math.min(300, Math.round(macros.totalCalories * 0.10));
   const carbIncrease = Math.round(increaseAmount / 4);
 
   return (
-    <div className="mt-16 bg-white border-2 border-slate-950 rounded-[3rem] overflow-hidden shadow-2xl print:shadow-none print:border-slate-300">
+    <div className="mt-16 bg-white border-2 border-slate-950 rounded-[3rem] overflow-hidden shadow-2xl print:shadow-none print:border-slate-300 page-break break-inside-avoid">
       <div className="bg-slate-950 p-8 text-center border-b-4 border-[#C5A059]">
         <h3 className="text-[#C5A059] font-black uppercase tracking-[0.4em] text-xs mb-2">Protocolo de Evolução</h3>
         <h4 className="text-white text-3xl font-black uppercase tracking-tight">Guia de Progressão Team Ferres</h4>
       </div>
 
       <div className="p-10 space-y-12">
-        {/* Métricas Atuais */}
         <div className="grid md:grid-cols-3 gap-8 text-center">
           <div className="p-6 bg-stone-50 rounded-3xl border border-stone-100">
             <p className="text-4xl font-black text-slate-950 mb-1">{macros.totalCalories}</p>
@@ -159,7 +157,6 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
           </div>
         </div>
 
-        {/* Metas de Ganho */}
         <div className="p-8 bg-stone-50 rounded-3xl border-2 border-dashed border-stone-200">
            <div className="flex items-center space-x-4 mb-4">
               <div className="bg-[#C5A059] p-2 rounded-lg">
@@ -175,7 +172,6 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
            </p>
         </div>
 
-        {/* Regra de Ouro */}
         <div className="space-y-6">
           <div className="flex items-center space-x-4">
             <div className="bg-slate-950 text-[#C5A059] w-10 h-10 rounded-full flex items-center justify-center font-black flex-shrink-0 border-2 border-[#C5A059]">!</div>
@@ -186,9 +182,8 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
           </p>
         </div>
 
-        {/* Como Ajustar */}
         <div className="bg-slate-950 text-white p-8 rounded-3xl relative overflow-hidden">
-           <div className="absolute top-0 right-0 p-4 opacity-10">
+           <div className="absolute top-0 right-0 p-4 opacity-10 no-print">
               <svg className="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" /></svg>
            </div>
            <h5 className="font-black text-xl uppercase tracking-tight mb-4 text-[#C5A059]">Estratégia de Aumento</h5>
@@ -203,7 +198,6 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
            </div>
         </div>
 
-        {/* Níveis de Bulking */}
         <div className="grid md:grid-cols-2 gap-6">
            <div className="border-l-4 border-[#C5A059] pl-6 py-2">
               <h6 className="font-black text-slate-950 uppercase text-sm mb-1">Nível Moderado</h6>
@@ -215,10 +209,9 @@ const ProgressionGuide: React.FC<{ macros: CalculatedMacros, userData: UserData 
            </div>
         </div>
 
-        {/* Alerta Final */}
         <div className="p-6 bg-red-50 border-2 border-red-100 rounded-3xl">
            <p className="text-red-900 text-xs font-bold leading-relaxed text-center">
-             <span className="font-black uppercase">⚠️ AVISO:</span> Não é aconselhado ultrapassar 50 kcal/kg, a menos que os pilares do bulking (treino, some e digestão) estejam intactos. Consulte o e-book para entender a fundo esses pilares.
+             <span className="font-black uppercase">⚠️ AVISO:</span> Não é aconselhado ultrapassar 50 kcal/kg, a menos que os pilares do bulking (treino, sono e digestão) estejam intactos. Consulte o e-book para entender a fundo esses pilares.
            </p>
         </div>
       </div>
@@ -230,7 +223,7 @@ const DietDisplay: React.FC<Props> = ({ dietPlan, macros, userData }) => {
   return (
     <div className="max-w-4xl mx-auto pb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="text-center mb-12">
-        <span className="bg-[#C5A059] text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.4em] mb-6 inline-block shadow-lg shadow-amber-200/50">
+        <span className="bg-[#C5A059] text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.4em] mb-6 inline-block shadow-lg shadow-amber-200/50 no-print">
           Prescrição Team Ferres
         </span>
         <h2 className="text-5xl font-black text-white mb-4 uppercase tracking-tighter leading-none">{dietPlan.title}</h2>
@@ -239,7 +232,7 @@ const DietDisplay: React.FC<Props> = ({ dietPlan, macros, userData }) => {
         </p>
       </div>
 
-      <div className="mb-12 p-8 bg-slate-950 rounded-3xl shadow-2xl flex flex-wrap justify-center gap-10 text-center border-b-8 border-[#C5A059]">
+      <div className="mb-12 p-8 bg-slate-950 rounded-3xl shadow-2xl flex flex-wrap justify-center gap-10 text-center border-b-8 border-[#C5A059] break-inside-avoid">
         <div className="min-w-[120px]">
           <p className="text-[#C5A059] font-black text-3xl mb-1">{macros.totalCalories}</p>
           <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Kcal Totais</p>
@@ -264,10 +257,10 @@ const DietDisplay: React.FC<Props> = ({ dietPlan, macros, userData }) => {
         ))}
       </div>
 
-      <div className="mt-16 bg-white p-10 rounded-[3rem] shadow-2xl border border-stone-100 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/5 rounded-bl-full -mr-8 -mt-8" />
+      <div className="mt-16 bg-white p-10 rounded-[3rem] shadow-2xl border border-stone-100 relative overflow-hidden break-inside-avoid">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/5 rounded-bl-full -mr-8 -mt-8 no-print" />
         <div className="flex items-center space-x-5 mb-8">
-          <div className="w-16 h-16 flex items-center justify-center">
+          <div className="w-16 h-16 flex items-center justify-center no-print">
              <img src="logo.png" alt="Logo Mindset" className="w-full h-full object-contain" />
           </div>
           <h4 className="font-black text-2xl text-slate-950 uppercase tracking-tighter leading-none">Mindset de Atleta</h4>
@@ -286,7 +279,7 @@ const DietDisplay: React.FC<Props> = ({ dietPlan, macros, userData }) => {
 
       <ProgressionGuide macros={macros} userData={userData} />
 
-      <div className="mt-16 text-center flex flex-col items-center gap-6">
+      <div className="mt-16 text-center flex flex-col items-center gap-6 no-print">
         <button 
           onClick={() => window.print()}
           className="px-10 py-5 bg-slate-950 text-[#C5A059] rounded-2xl font-black uppercase tracking-[0.3em] hover:bg-[#C5A059] hover:text-white transition-all shadow-2xl flex items-center space-x-4 transform hover:-translate-y-1"

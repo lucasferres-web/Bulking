@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { UserData, CalculatedMacros, UserPreferences, DietPlan } from '../types';
-import { generateDietPlan } from '../services/geminiService';
+import { UserData, CalculatedMacros, UserPreferences, DietPlan } from '../types.ts';
+import { generateDietPlan } from '../services/geminiService.ts';
 
 interface Props {
   userData: UserData;

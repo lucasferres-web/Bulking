@@ -1,9 +1,9 @@
 
 import React, { useState, useMemo } from 'react';
-import { UserData, CalculatedMacros, UserPreferences, DietPlan } from './types';
-import Calculator from './components/Calculator';
-import Preferences from './components/Preferences';
-import DietDisplay from './components/DietDisplay';
+import { UserData, CalculatedMacros, UserPreferences, DietPlan } from './types.ts';
+import Calculator from './components/Calculator.tsx';
+import Preferences from './components/Preferences.tsx';
+import DietDisplay from './components/DietDisplay.tsx';
 
 enum Step {
   Calculator,
