@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { UserData, CalculatedMacros, UserPreferences } from "../types.ts";
+import { UserData, CalculatedMacros, UserPreferences } from "../types";
 
 export const generateDietPlan = async (
   userData: UserData,

@@ -15,20 +15,18 @@
       }
       #error-log {
         display: none;
-        padding: 20px;
+        padding: 15px;
         background: #450a0a;
         color: #fca5a5;
         font-family: monospace;
-        font-size: 14px;
-        border: 2px solid #ef4444;
+        font-size: 12px;
+        border-bottom: 2px solid #ef4444;
         white-space: pre-wrap;
         position: fixed;
-        top: 20px;
-        left: 20px;
-        right: 20px;
+        top: 0;
+        left: 0;
+        right: 0;
         z-index: 9999;
-        border-radius: 12px;
-        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5);
       }
       #root:empty {
         display: flex;
@@ -48,6 +46,7 @@
       @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 
+    <!-- Scripts Necessários -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
@@ -65,33 +64,30 @@
 </script>
 
     <script>
-      // Sistema de diagnóstico robusto
-      window.onerror = function(msg, url, line, col, error) {
+      // Captura erros para ajudar no diagnóstico caso a tela continue branca
+      window.onerror = function(msg, url, line) {
         const log = document.getElementById('error-log');
         if (log) {
           log.style.display = 'block';
-          log.textContent = "❌ ERRO CRÍTICO ENCONTRADO:\n\n" + 
-            "Mensagem: " + msg + "\n" +
-            "Arquivo: " + url.split('/').pop() + "\n" +
-            "Linha: " + line + ":" + col + "\n\n" +
-            "Dica: Verifique se todos os nomes de arquivos no GitHub estão idênticos ao código (letras maiúsculas/minúsculas importam).";
+          log.textContent += "ERRO: " + msg + "\nLINHA: " + line + "\nURL: " + url + "\n---\n";
         }
         return false;
       };
 
+      // Define ambiente global para o SDK do Gemini
       window.process = { env: { API_KEY: "" } };
-      console.log("🚀 Iniciando motor Bulking Master...");
     </script>
   </head>
   <body>
     <div id="error-log">⚠️ Ocorreu um problema no carregamento:</div>
     <div id="root"></div>
 
+    <!-- Carrega o index.tsx e força a transpilação pelo Babel -->
     <script 
       type="text/babel" 
       data-presets="react,typescript" 
       data-type="module" 
-      src="./index.tsx"
+      src="index.tsx"
     ></script>
   </body>
 </html>
